@@ -1,27 +1,44 @@
 package edu.escuelaing.app;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.LinkedList;
+
 /**
- * Media y Desviación Estandar
- *
+ * Clase principal de la aplicación
  */
-public class App{
-    public static void main( String[] args ) throws FileNotFoundException, IOException {
-        LinkedList<BigDecimal> lista = new LinkedList<BigDecimal>();
-        //String ruta = "C:/Users/Jonatan Gonzalez/Desktop/ECI 2020-I/mi-primera-app/src/main/java/edu/escuelaing/app/datos.txt";
-        //FileReader f = new FileReader(ruta);
-        //BufferedReader b = new BufferedReader(f);
-
-        lista.add(new BigDecimal(5));
-        lista.add(new BigDecimal(15));
-        lista.add(new BigDecimal(12));
-        lista.add(new BigDecimal(18));
-        lista.add(new BigDecimal(28));
-
-        BigDecimal media = null;
-        BigDecimal desviacionEstandafr = null;
+public class App 
+{
+	
+	private LinkedList<Double> crearLista(String data) {
+		LinkedList<Double> lista = new LinkedList<Double>();
+		
+		for (String d : data.split(",")) {
+			lista.add(Double.parseDouble(d));
+		}
+		
+		return lista;
+	}
+	
+	public void calcular(String rutaArchivo) {
+		DataSource ds = new DataSource();
+		ds.cargarArchivo(rutaArchivo);
+		String[] properties = ds.getDatos();
+		
+		if (properties != null) {
+			int cont=1;
+			for (String property : properties) {
+				Calc calc = new Calc(crearLista(property));
+				System.out.println("Caso "+cont+" :");
+				System.out.println("Media aritmetica: " + calc.calcularMedia());
+				System.out.println("Desviación estandar: " + calc.calcularDesviacion());
+				System.out.println("---------#---------#---------#---------#--------#");
+				cont+=1;
+			}	
+		}
+	}
+	
+    public static void main( String[] args )
+    {
+        App app = new App();
+        app.calcular("/home/jonatan.gonzalez/Downloads/PruebaAREP/mi-primera-app/data/datos.txt");
     }
 }
