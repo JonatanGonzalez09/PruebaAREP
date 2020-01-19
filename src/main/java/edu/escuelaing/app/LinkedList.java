@@ -1,242 +1,146 @@
 package edu.escuelaing.app;
 
-/**
-E especifica el tipo de dato que entra a la LinkedList */
-public class LinkedList<E> extends AbstractSequentialList<E> implements List<E>, Deque<E>, Serializable, Cloneable { 
-    int size=0;
-    Node<E> first;
-    Node<E> last;
+import java.util.ArrayList;
+import java.util.List;
 
+public class LinkedList {
+    private Nodo head= null;
+
+    /**
+     * Constructor de LinkedList
+     */
     public LinkedList(){
-        List lista = new List();
-    }
 
-    /**
-        Enlaza a en el primer elemento
-    */
-    private void linkFirst(E e) {
-        Node<E> f = first;
-        Node<E> newNode = new Node<E>(null, e, f);
-        first = newNode;
-        if (f == null){
-            last = newNode;
-        }else{
-            f.prev = newNode;
-        }
-        size++;
     }
-
+    
     /**
-     * Enlaza en el ultimo elemento.
-    */
-    void linkLast(E e) {
-        final Node<E> l = last;
-        final Node<E> newNode = new Node<>(l, e, null);
-        last = newNode;
-        if (l == null){
-            first = newNode;   
-        }else{
-            l.next = newNode;
-        }
-        size++;
-    }
-
-    /**
-     * Inserta el elemento e antes del nodo que no este null.
+     * Agrega un nodo a la LinkedList
+     * @param id La posicion donde se quiere insertar el nodo.
+     * @param node El nodo que va ha ser agragado.
+     * @return El nodo agregado a la LinkedList
      */
-    void linkBefore(E e, Node<E> succ){
-        // assert succ != null;
-        final Node<E> pred = succ.prev;
-        final Node<E> newNode = new Node<>(pred, e, succ);
-        succ.prev = newNode;
-        if (pred == null){
-            first = newNode;
-        }else{
-            pred.next = newNode;
+    public Nodo add(int id, Nodo nodo) {
+        if(head==null) {
+            nodo.setId(1);
+            head= nodo;
+            return nodo;
         }
-        size++;
+        Nodo actualNode = setNextNodo(id, nodo);
+        return actualNode.nextNodo();
     }
 
     /**
-     * Desenlaza el primer nodo non-null
+     * Modifica el nodo siguiente de un nodo especificado con el id
+     * @param id El identificador del nodo.
+     * @param node El nodo que va ha ser remplazado por el nextNode.
+     * @return El nextNode modificado.
      */
-    private E unlinkFirst(Node<E> f) {
-        final E element = f.item;
-        final Node<E> next = f.next;
-        f.item = null;
-        f.next = null; // help GC
-        first = next;
-        if (next == null){
-            last = null;
-        }else{
-            next.prev = null;
-        }
-        size--;
-        return element;
-    }
-
-     /**
-     * Desenlaza el ultimo nodo non-null.
-     */
-
-    private E unlinkLast(Node<E> l) {
-        // assert l == last && l != null;
-        final E element = l.item;
-        final Node<E> prev = l.prev;
-        l.item = null;
-        l.prev = null; // help GC
-        last = prev;
-        if (prev == null){
-            first = null;
-        }else{
-            prev.next = null;
-        }
-        size--;
-        return element;
-    }
-
-    /**
-     * Desenlaza un nodo x que no sea null.
-     */
-    E unlink(Node<E> x) {
-        final E element = x.item;
-        final Node<E> next = x.next;
-        final Node<E> prev = x.prev;
-        if (prev == null) {
-            first = next;
-        } else {
-            prev.next = next;
-            x.prev = null;
-        }
-        if (next == null) {
-            last = prev;
-        } else {
-            next.prev = prev;
-            x.next = null;
-        }
-        x.item = null;
-        size--;
-        return element;
-    }
-
-    /**
-     * Retorna el primer elemento en la lista
-     *
-     * @return the first element in this list
-     * @throws NoSuchElementException if this list is empty
-     */
-    public E getFirst() {
-        final Node<E> f = first;
-        if (f == null){
-            throw new NoSuchElementException();
-        }
-        return f.item;
-    }
-
-    /**
-     * Retorna el ultimo elemento en la lista.
-     *
-     * @return the last element in this list
-     * @throws NoSuchElementException if this list is empty
-     */
-    public E getLast() {
-        final Node<E> l = last;
-        if (l == null){
-            throw new NoSuchElementException();
-        }
-        return l.item;
-    }
-
-    /**
-     * Elimina el primer elemento de la lista.
-     *
-     * @throws NoSuchElementException if this list is empty
-     */
-    public E removeFirst() {
-        final Node<E> f = first;
-        if (f == null){
-            throw new NoSuchElementException();
-        }else{
-            unlinkFirst(f);
-        }
-    }
-
-    /**
-     * Elimina el ultimo elemento de la lista.
-     *
-     * @throws NoSuchElementException if this list is empty
-     */
-    public E removeLast() {
-        final Node<E> l = last;
-        if (l == null){
-            throw new NoSuchElementException();
-        }else{
-            unlinkLast(l);
-        }
-    }
-
-    /**
-     *Inserta el elemento especificado al inicio de la lista.
-     *
-     * @param e the element to add
-     */
-    public void addFirst(E e) {
-        linkFirst(e);
-    }
-
-    /**
-     * Inserta el elemento especificado al final de la lista..
-     *
-     * @param e the element to add
-     */
-    public void addLast(E e) {
-        linkLast(e);
-    }
-
-    /**
-     * Returns the number of elements in this list.
-     *
-     * @return the number of elements in this list
-     */
-    public int size() {
-        return size;
-    }
-
-
-
-    static class Node { 
-        int data; 
-        Node next; 
-        
-        Node(int d){ 
-            data = d; 
-            next = null;
+    private Nodo setNextNodo(int id, Nodo node) {
+        Nodo actualNode = getNodo(id);
+        Nodo nextNode = actualNode.nextNodo();
+        actualNode.setNextNodo(node);
+        node.setNextNodo(nextNode);
+        node.setId(id+1);
+        if(nextNode!=null){
+            nextNode.setId(id+2);
+            refactorNodos();
         } 
-    } 
-	
-    public LinkedList addNode(LinkedList list, int data){ 
-        Node new_node = new Node(data);
-        new_node.next = null;
-		
-        if (list.head == null){ 
-            list.head = new_node; 
-		} 
-        else{ 
-            Node last = list.head; 
-            while (last.next != null){ 
-                last = last.next; 
-            } 
-            last.next = new_node; 
-        } 
-        return list; 
+        return actualNode;
     }
-	
-    public static void printList(LinkedList list){ 
-        Node currNode = list.head; 
-        System.out.print("LinkedList: "); 
-        while (currNode != null){
-            System.out.print(currNode.data + " ");
-            currNode = currNode.next; 
+
+    /**
+     * Reubica los id de los nodos cuando han sido cambiados.
+     */
+    private void refactorNodos() {
+        Nodo next= getNodo(1);
+        Nodo prev= null;
+        while(next != null) {
+            if (prev != null) {
+                next.setId(prev.getId() + 1);
+            } else {
+                head= next;
+                next.setId(1);
+            }
+            prev = next;
+            next= next.nextNodo();
         }
+    }
+
+    /**
+     *  Elimina un nodo especifico teniendo el id
+     * @param id El identificador del nodo.
+     * @throws Exception Lanza la excepcion si el id del nodo no existe.
+     */
+    public void removeNodo(int id) throws Exception {
+        if(head.nextNodo() == null) {
+            head= null;
+            return;
+        }
+        if(id == 1) {
+            head.nextNodo().setId(1);
+            head= head.nextNodo();
+            refactorNodos();
+            return;
+        }
+        getNodo(id-1).setNextNodo(getNodo(id).nextNodo());
+        refactorNodos();
+    }
+
+    /**
+     * Retornar el siguiente nodo al especificado.
+     * @param id El identificador del nodo .
+     * @return El nodo siguiente al nodo del id.
+     * @throws Exception Lanza la excepcion si el nodo no existe.
+     */
+    public Nodo nextNodo(int id) throws Exception {
+        return getNodo(id).nextNodo();
+    }
+    /**
+     * Retorna el nodo anterior de un nodo especificado.
+     * @param id El identificador del nodo.
+     * @return el nodo anterior de un nodo especificado con el id.
+     * @throws Exception Lanza la excepcion si el nodo no existe. 
+     */
+    public Nodo priorNodo(int id) throws Exception {
+        return getNodo(id-1);
+    }
+
+    /**
+     * Busca el nodo especificado por toda la LinkedList.
+     * @param id el id del nodo a buscar.
+     * @return retorna el nodo encontrado.
+     * @throws IllegalArgumentException Lanza la excepcion si el nodo no existe.
+     */
+    private Nodo getNodo(int id) throws IllegalArgumentException{
+        Nodo node = head;
+        while(node != null) {
+            if(node.getId()==id) {
+                return node;
+            }
+            node= node.nextNodo();
+        }
+        throw new IllegalArgumentException("No existe nodo con el id: " + id);
+    }
+
+    /**
+     * Devuelve la LinkedList
+     * @return La lista con sus respectivos nodos.
+     */
+    public List getLinkedList() {
+        Nodo node= head;
+        ArrayList<Nodo> linkedList = new ArrayList<Nodo>();
+        while (node!=null) {
+            linkedList.add(node);
+            node= node.nextNodo();
+        }
+        return linkedList;
+    }
+
+    /**
+     * Devuelve la cabeza de la lista.
+     * @return El primer elemento de la lista.
+     */
+    public Nodo getHead() {
+        return head;
     }
 }

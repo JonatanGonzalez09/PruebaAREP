@@ -1,44 +1,80 @@
 package edu.escuelaing.app;
 
-import java.util.LinkedList;
+import java.io.File;
+import java.util.Scanner;
 
 /**
- * Clase principal de la aplicación
+ * Clase que calcula la media y la desviacion estandar de un conjunto de datos.
  */
-public class App 
-{
-	
-	private LinkedList<Double> crearLista(String data) {
-		LinkedList<Double> lista = new LinkedList<Double>();
-		
-		for (String d : data.split(",")) {
-			lista.add(Double.parseDouble(d));
-		}
-		
-		return lista;
-	}
-	
-	public void calcular(String rutaArchivo) {
-		DataSource ds = new DataSource();
-		ds.cargarArchivo(rutaArchivo);
-		String[] properties = ds.getDatos();
-		
-		if (properties != null) {
-			int cont=1;
-			for (String property : properties) {
-				Calc calc = new Calc(crearLista(property));
-				System.out.println("Caso "+cont+" :");
-				System.out.println("Media aritmetica: " + calc.calcularMedia());
-				System.out.println("Desviación estandar: " + calc.calcularDesviacion());
-				System.out.println("---------#---------#---------#---------#--------#");
-				cont+=1;
-			}	
-		}
-	}
-	
-    public static void main( String[] args )
-    {
-        App app = new App();
-        app.calcular("/home/jonatan.gonzalez/Downloads/PruebaAREP/mi-primera-app/data/datos.txt");
+public class App {
+
+    /**
+     * Programa principal que lee el archivo y ejecuta los metodos de media y desviacion estandar
+     * @param args 
+     * @throws Exception 
+     */
+    public static void main( String[] args ) throws Exception {
+        Scanner reader = new Scanner(new File("src/main/java/edu/escuelaing/app/Casos/datos.txt"));
+        int n= Integer.parseInt(reader.next());
+        int casos = 1;
+        while (n != 0) {
+            LinkedList linkedList = new LinkedList();
+            while (n!=0) {
+                linkedList.add(1, new Nodo(reader.next()));
+                n--;
+            }
+            double media = calcularMedia(linkedList);
+            double desviacion = calcularDesviacion(linkedList, media);
+            System.out.printf("Caso "+casos+": \n");
+            System.out.printf("Media: "+media+"\n");
+            System.out.printf("Desviacion Estandar: "+desviacion+"\n");
+            System.out.println("--------#----------#---------#---------");
+            System.out.println("");
+            n= Integer.parseInt(reader.next());
+            casos+=1;
+        }
+    }
+
+    /**
+     * Calculate the mean of a list of numbers
+     * 
+     * @param list La LinkedList con los datos.
+     * @return La media del conjunto de datos.
+     * @throws Exception
+     * @throws NumberFormatException
+     */
+    public static double calcularMedia(LinkedList list) throws NumberFormatException, Exception {
+        Nodo node = list.getHead();
+        double mean = Double.parseDouble(node.getDatos());
+        int size = 1;
+        while (node.nextNodo() != null) {
+
+            mean += Double.parseDouble(list.nextNodo(node.getId()).getDatos());
+            node = node.nextNodo();
+            size++;
+        }
+        return mean / size;
+    }
+
+    /**
+     * Calcula la desviacion estandar de un coonjunto de datos.
+     * 
+     * @param list La linkedList con los datos.
+     * @param mean La media sacada anteriormente para solucionar la desviacion
+     *             estandar.
+     * @return La desviacion estandar
+     * @throws Exception
+     */
+    public static double calcularDesviacion(LinkedList list, double mean) throws Exception {
+        Nodo node = list.getHead();
+        double sDeviation = Math.pow(Double.parseDouble(node.getDatos()) - mean, 2);
+        int size = 0;
+        while (node.nextNodo() != null) {
+            sDeviation += Math.pow(Double.parseDouble(list.nextNodo(node.getId()).getDatos()) - mean, 2);
+            node = node.nextNodo();
+            size++;
+        }
+        return Math.pow(sDeviation/size, 0.5);
     }
 }
+
