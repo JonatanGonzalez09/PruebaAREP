@@ -43,7 +43,7 @@ public class LinkedList {
         node.setId(id+1);
         if(nextNode!=null){
             nextNode.setId(id+2);
-            refactorNodos();
+            reubicarNodos();
         } 
         return actualNode;
     }
@@ -51,7 +51,7 @@ public class LinkedList {
     /**
      * Reubica los id de los nodos cuando han sido cambiados.
      */
-    private void refactorNodos() {
+    private void reubicarNodos() {
         Nodo next= getNodo(1);
         Nodo prev= null;
         while(next != null) {
@@ -79,11 +79,11 @@ public class LinkedList {
         if(id == 1) {
             head.nextNodo().setId(1);
             head= head.nextNodo();
-            refactorNodos();
+            reubicarNodos();
             return;
         }
         getNodo(id-1).setNextNodo(getNodo(id).nextNodo());
-        refactorNodos();
+        reubicarNodos();
     }
 
     /**
