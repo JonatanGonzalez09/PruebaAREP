@@ -2,7 +2,7 @@
 El objetivo de este laboratorio es implementar una Lista Enlazada (*LinkedList*), para guardar datos con los cuales posteriormente se calculara la Media y la Desviación Estándar
 
 ## Modelo ##
-Imagen
+![myimage-alt-tag](https://github.com/JonatanGonzalez09/AREP-Lab1/blob/master/src/resources/Modelo.PNG)
 
 ## Documentación Javadoc ##
 Para generar la documentacion javadoc, fue necesario ejecutar los siguientes comandos:
