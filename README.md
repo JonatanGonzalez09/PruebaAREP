@@ -17,6 +17,11 @@ Para generar la documentacion javadoc, fue necesario ejecutar los siguientes com
 - mvn javadoc:test-aggregate
 - mvn javadoc:test-aggregate-jar
 ```
+La ruta donde encontrara la documentacion es la siguiente: **target\site\apidocs\edu\escuelaing\app**
+
+## Descripción del diseño ##
+En el siguiente vinculo encontrara el respectivo PDF de la descripción del diseño.
+[Click](https://github.com/JonatanGonzalez09/AREP-Lab1/blob/master/src/resources/Lab1.pdf)
 
 ## Ejecución ##
 Para empaquetar el proyecto se ejecuta el comando:
@@ -34,6 +39,3 @@ java -cp target/mi-primera-app-1.0-SNAPSHOT.jar edu.escuelaing.app.App
 
 ## Licencia ##
 Este proyecto cuenta con la licencia [**GNU General Public License v3.0**](https://github.com/JonatanGonzalez09/AREP-Lab1/blob/master/LICENSE)
-
-## Autor ##
-Jonatan Esteban Gonzalez Rodriguez
