@@ -6,15 +6,15 @@ package edu.escuelaing.app;
  */
 public class Nodo<T> {
     private Nodo<T> next = null;
-    private T data;
+    private T dato;
     private int id;
 
     /**
      * Constructor de un nodo
-     * @param data El dato del nodo
+     * @param dato El dato del nodo
      */
-    public Nodo(T data){
-        this.data = data;
+    public Nodo(T dato){
+        this.dato = dato;
     }
 
     /**
@@ -38,7 +38,7 @@ public class Nodo<T> {
      * @return El dato que hay en el nodo.
      */
     public String getDatos() {
-        return data.toString();
+        return dato.toString();
     }
 
     /**
@@ -62,7 +62,7 @@ public class Nodo<T> {
      * @return devuelve el id y los datos que tiene el nodo.
      */
     public String toString() {
-        return "[id:"+this.id+", dato:"+this.data +" ]";
+        return "[id:"+this.id+", dato:"+this.dato +" ]";
     }
 }
 

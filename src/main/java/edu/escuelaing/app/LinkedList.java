@@ -71,7 +71,7 @@ public class LinkedList {
      * @param id El identificador del nodo.
      * @throws Exception Lanza la excepcion si el id del nodo no existe.
      */
-    public void removeNodo(int id) throws Exception {
+    public void removerNodo(int id) throws Exception {
         if(head.nextNodo() == null) {
             head= null;
             return;
